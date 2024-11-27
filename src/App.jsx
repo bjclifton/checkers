@@ -17,7 +17,7 @@ const App = () => {
     if (row > 4) {
       return Array(8).fill(null).map((_, col) => {
         if ((row + col) % 2 === 1) {
-          return { color: color2 };
+          return { color: color2, isSelected: false };
         }
         return null;
       });
@@ -29,8 +29,22 @@ const App = () => {
   const [boardState, setBoardState] = useState(initialBoard);
 
 
+
   const handleCellClick = (row, col) => {
-    console.log(`Clicked cell at row ${row}, column ${col}`);
+    if (boardState[row][col] !== null) {
+      const newBoardState = boardState.map((r, rIndex) => {
+        return r.map((c, cIndex) => {
+          if (rIndex === row && cIndex === col) {
+            return { ...c, isSelected: true };
+          }
+          else if (c !== null) {
+            return { ...c, isSelected: false };
+          }
+          return c;
+        });
+      });
+      setBoardState(newBoardState);
+    }
   };
 
   return (

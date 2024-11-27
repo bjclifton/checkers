@@ -1,6 +1,6 @@
 import { cellSize } from "./CheckerBoard";
 
-const CheckerPiece = ({ color, pos, onPieceClick }) => {
+const CheckerPiece = ({ color, pos, isSelected, onPieceClick }) => {
   const radius = cellSize / 3;
   const [row, col] = pos;
   return (
@@ -9,7 +9,7 @@ const CheckerPiece = ({ color, pos, onPieceClick }) => {
       cy={row * cellSize + cellSize / 2}
       r={radius}
       fill={color}
-      stroke={"gray"}
+      stroke={isSelected ? "Gold" : "darkgray"}
       strokeWidth={2}
       onClick={() => onPieceClick(row, col)}
     />
