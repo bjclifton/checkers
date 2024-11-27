@@ -9,7 +9,7 @@ const CheckerPiece = ({ color, pos, isSelected, onPieceClick }) => {
       cy={row * cellSize + cellSize / 2}
       r={radius}
       fill={color}
-      stroke={isSelected ? "Gold" : "darkgray"}
+      stroke={isSelected ? "gold" : "darkgray"}
       strokeWidth={2}
       onClick={() => onPieceClick(row, col)}
     />

@@ -5,7 +5,7 @@ export const cellSize = 50;
 
 
 const CheckerBoard = ({ boardState, onCellClick }) => {
-
+  console.log(boardState);
   return (
     <svg width={cellSize * 8} height={cellSize * 8}>
       {boardState.map((row, rowIndex) =>
@@ -29,7 +29,13 @@ const CheckerBoard = ({ boardState, onCellClick }) => {
             const color = cell.color;
             const selected = cell.isSelected;
             return (
-              <CheckerPiece key={`${rowIndex}-${colIndex}`} color={color} pos={[rowIndex, colIndex]} isSelected={selected} onPieceClick={onCellClick} />
+              <CheckerPiece
+                key={`${rowIndex}-${colIndex}-${cell ? cell.color : ''}`}
+                color={color}
+                pos={[rowIndex, colIndex]}
+                isSelected={selected}
+                onPieceClick={onCellClick}
+              />
             );
           }
           return null;

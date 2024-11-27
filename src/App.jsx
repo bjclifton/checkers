@@ -27,23 +27,59 @@ const App = () => {
   );
 
   const [boardState, setBoardState] = useState(initialBoard);
+  const [selectedPiece, setSelectedPiece] = useState(null);
+
+  const handlePieceMove = (row, col) => {
+    // Check if move is valid, within bounds, and empty
+    if (row < 0 || row > 7 || col < 0 || col > 7 || boardState[row][col]) {
+      return;
+    }
+
+    // Check if move is diagonal
+    const selectedRow = selectedPiece.row;
+    const selectedCol = selectedPiece.col;
+    const rowDiff = Math.abs(row - selectedRow);
+    const colDiff = Math.abs(col - selectedCol);
+    if (rowDiff !== 1 || colDiff !== 1) {
+      return;
+    }
+
+    // Move the piece
+    const newBoard = boardState.map((r, rowIndex) =>
+      r.map((cell, colIndex) => {
+        if (rowIndex === selectedRow && colIndex === selectedCol) {
+          return null;
+        }
+        if (rowIndex === row && colIndex === col) {
+          return { color: selectedPiece.color, isSelected: false };
+        }
+        return cell;
+      })
+    );
+    setBoardState(newBoard);
+    setSelectedPiece(null);
+  };
+
 
 
 
   const handleCellClick = (row, col) => {
-    if (boardState[row][col] !== null) {
-      const newBoardState = boardState.map((r, rIndex) => {
-        return r.map((c, cIndex) => {
-          if (rIndex === row && cIndex === col) {
-            return { ...c, isSelected: true };
+    if (selectedPiece && !boardState[row][col]) { handlePieceMove(row, col); }
+
+    else {
+      const newBoard = boardState.map((r, rowIndex) =>
+        r.map((cell, colIndex) => {
+          if (rowIndex == row && colIndex == col) {
+            return { ...cell, isSelected: true };
           }
-          else if (c !== null) {
-            return { ...c, isSelected: false };
+          else if (cell) {
+            return { ...cell, isSelected: false };
           }
-          return c;
-        });
-      });
-      setBoardState(newBoardState);
+          return cell;
+        })
+      );
+      setBoardState(newBoard);
+      setSelectedPiece({ row, col, color: boardState[row][col].color });
     }
   };
 
